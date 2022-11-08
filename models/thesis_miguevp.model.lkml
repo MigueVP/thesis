@@ -105,6 +105,7 @@ explore: hundred_million_orders_wide {
     sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+
 }
 
 explore: incremental_pdts_test {}
