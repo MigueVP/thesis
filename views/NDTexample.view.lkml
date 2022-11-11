@@ -1,6 +1,6 @@
 view: ndtexample {
 # If necessary, uncomment the line below to include explore_source.
-# include: "thesis_miguevp.model.lkml"
+#include: "thesis_miguevp.model.lkml"
 
 
     derived_table: {
