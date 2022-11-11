@@ -58,6 +58,11 @@ explore: events {
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+  join: sqldetable {
+    type: left_outer
+    sql_on: ${events.user_id} = ${users.id};;
+    relationship: many_to_one
+  }
 }
 
 explore: fakeorders {
@@ -132,11 +137,7 @@ explore: orders {
 
 explore: order_items {
 
-  join: sqldetable {
-    type: left_outer
-    sql_on: ${order_items.order_id} = ${order_items.inventory_item_id};;
-    relationship: many_to_one
-  }
+
 
   join: orders {
     type: left_outer
