@@ -133,11 +133,18 @@ explore: orders {
     sql_on: ${orders.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+
+
+
 }
 
 explore: order_items {
 
-
+  join: nativederivedtable {
+    type: left_outer
+    sql_on: ${products.brand} = ${products.category};;
+    relationship: many_to_one
+  }
 
   join: orders {
     type: left_outer
