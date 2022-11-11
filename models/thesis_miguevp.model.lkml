@@ -4,6 +4,7 @@ connection: "thelook"
 # include all the views
 include: "/views/**/*.view"
 
+
 # Datagroups define a caching policy for an Explore. To learn more,
 # use the Quick Help panel on the right to see documentation.
 
@@ -116,6 +117,11 @@ explore: inventory_items {
   join: products {
     type: left_outer
     sql_on: ${inventory_items.product_id} = ${products.id} ;;
+    relationship: many_to_one
+  }
+  join: ndtexample {
+    type: left_outer
+    sql_on: ${products.category} = ${products.category};;
     relationship: many_to_one
   }
 }
