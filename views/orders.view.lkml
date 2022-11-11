@@ -7,6 +7,30 @@ view: orders {
   # This primary key is the unique key for this table in the underlying database.
   # You need to define a primary key in a view in order to join to other views.
 
+  parameter: date_granularity {
+    type: unquoted
+    allowed_value: {
+      label: "Show by day"
+      value: "day"
+    }
+    allowed_value: {
+      label: "Show by month"
+      value: "month"
+    }
+  }
+
+  dimension: date {
+    sql:
+    {% if date_granularity._parameter_value == 'day' %}
+      ${created_date}
+    {% elsif date_granularity._parameter_value == 'month' %}
+      ${created_month}
+    {% else %}
+      ${created_date}
+    {% endif %};;
+  }
+
+
   dimension: id {
     primary_key: yes
     type: number
@@ -37,12 +61,16 @@ view: orders {
   dimension: status {
     sql: ${TABLE}.status ;;
     html: {% if value == 'pending' %}
-      <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+      <p style="color: black; background-color: lightblue; font-size:100%; text-align:center"> <img src="https://cdn-icons-png.flaticon.com/512/248/248958.png"height=20 width=20>
+      {{ rendered_value }}</p>
     {% elsif value == 'complete' %}
-      <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{ rendered_value }}</p>
+      <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center"><img src="https://cdn-icons-png.flaticon.com/512/190/190411.png"height=20 width=20>
+      {{ rendered_value }}</p>
     {% else %}
-      <p style="color: black; background-color: orange; font-size:100%; text-align:center">{{ rendered_value }}</p>
-    {% endif %}
+      <p style="color: black; background-color: #FFD2D2; font-size:100%; text-align:center"><img src="https://cdn-icons-png.flaticon.com/512/753/753345.png"height=20 width=20>
+
+      {{ rendered_value }}</p>
+      {% endif %}
 ;;
   }
 

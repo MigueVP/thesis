@@ -22,6 +22,7 @@ view: products {
     sql: ${TABLE}.brand ;;
   }
 
+
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;
