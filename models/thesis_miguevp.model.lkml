@@ -65,6 +65,14 @@ explore: events {
   }
 }
 
+
+map_layer: neighborhood {
+
+  file: "/Maps/Riyadh_Districts.topojson"
+  format: topojson
+
+}
+
 explore: fakeorders {
   join: orders {
     type: left_outer
@@ -140,11 +148,11 @@ explore: orders {
 
 explore: order_items {
 
-  join: nativederivedtable {
-    type: left_outer
-    sql_on: ${products.brand} = ${products.category};;
-    relationship: many_to_one
-  }
+#  join: nativederivedtable {
+#    type: left_outer
+#    sql_on: ${products.brand} = ${products.category};;
+#    relationship: many_to_one
+#  }
 
   join: orders {
     type: left_outer
@@ -251,7 +259,9 @@ explore: ten_million_orders {
 
 explore: test {}
 
-explore: users {}
+explore: users {
+
+}
 
 explore: user_data {
   join: users {
@@ -260,6 +270,10 @@ explore: user_data {
     relationship: many_to_one
   }
 }
+
+access_grant: test_access {
+  user_attribute: admin_test
+  allowed_values: [ "yes" ]}
 
 explore: vvimgsrc1onerroralert2ll {}
 

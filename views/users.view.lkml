@@ -7,6 +7,7 @@ view: users {
   # This primary key is the unique key for this table in the underlying database.
   # You need to define a primary key in a view in order to join to other views.
 
+
   dimension: id {
     primary_key: yes
     type: number
@@ -64,6 +65,12 @@ view: users {
     sql: ${TABLE}.created_at ;;
   }
 
+  dimension: neighborhood {
+    map_layer_name: neighborhood
+    sql: ${TABLE}.zip
+
+          ;;
+  }
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
@@ -97,6 +104,22 @@ view: users {
   measure: count {
     type: count
     drill_fields: [detail*]
+  }
+  measure: avg_queue_duration_ms {
+    description: "Average time the caller spent in the queue waiting to be connected to an agent or until they abandoned the call in millisecs. All queue wait segments are added, even if a call went through multiple queues. Average: Sum (Queue Wait Times)/Total Calls that entered at least one skill"
+    type: average_distinct
+     sql: ${age} ;;
+    sql_distinct_key:${age} ;;
+    value_format_name: decimal_0
+    value_format:"#"
+  }
+
+  measure: avg_queue_duration {
+    description: "Average time the caller spent in the queue waiting to be connected to an agent or until they abandoned the call. All queue wait segments are added, even if a call went through multiple queues. Average: Sum (Queue Wait Times)/Total Calls that entered at least one skill"
+
+    sql: ${avg_queue_duration_ms} ;;
+    html: @{duration_display_selected_format} ;;
+    value_format:"#"
   }
 
   # ----- Sets of fields for drilling ------

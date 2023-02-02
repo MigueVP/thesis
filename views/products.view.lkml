@@ -19,6 +19,7 @@ view: products {
 
   dimension: brand {
     type: string
+
     sql: ${TABLE}.brand ;;
   }
 
@@ -42,6 +43,17 @@ view: products {
     type: number
     sql: ${TABLE}.rank ;;
   }
+  dimension: url {
+    type: string
+    sql: ${TABLE}.https://www.youtube.com/watch?v=5yx6BWlEVcY ;;
+  }
+
+  dimension: button {
+ type:string
+    sql: ${url} ;;
+    html: <a href="{{value}}"><button>URL Button</button></a> ;; }
+
+
 
   dimension: retail_price {
     type: number
@@ -52,24 +64,13 @@ view: products {
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-  measure: total_retail_price {
-    type: sum
-    value_format:"$#.00;($#.00)"
-    sql: ${retail_price} ;;
-  }
 
-  measure: average_retail_price {
-    type: average
-    sql: ${retail_price} ;;
-  }
+
 
   dimension: sku {
     type: string
     sql: ${TABLE}.sku ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [id, item_name, inventory_items.count]
-  }
+
 }

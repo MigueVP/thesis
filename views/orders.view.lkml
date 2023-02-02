@@ -19,39 +19,27 @@ view: orders {
     }
   }
 
-  dimension: date {
-    sql:
-    {% if date_granularity._parameter_value == 'day' %}
-      ${created_date}
-    {% elsif date_granularity._parameter_value == 'month' %}
-      ${created_month}
-    {% else %}
-      ${created_date}
-    {% endif %};;
-  }
 
 
   dimension: id {
     primary_key: yes
-    type: number
+    type: string
     sql: ${TABLE}.id ;;
   }
 
+  measure: idnumber {
+    type: number
+    sql: ${TABLE}.id ;;
+  }
   # Dates and timestamps can be represented in Looker using a dimension group of type: time.
   # Looker converts dates and timestamps to the specified timeframes within the dimension group.
 
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_at ;;
+
+
+  measure: avg_order {
+
+    sql: ${count} ;;
+    value_format_name: usd
   }
 
   # Here's what a typical dimension looks like in LookML.
@@ -59,6 +47,7 @@ view: orders {
   # This dimension will be called "Status" in Explore.
 
   dimension: status {
+    required_access_grants: [test_access]
     sql: ${TABLE}.status ;;
     html: {% if value == 'pending' %}
       <p style="color: black; background-color: lightblue; font-size:100%; text-align:center"> <img src="https://cdn-icons-png.flaticon.com/512/248/248958.png"height=20 width=20>
@@ -74,8 +63,10 @@ view: orders {
 ;;
   }
 
+
   dimension: user_id {
     type: number
+    label: "{% if user_id == 'Looker' %} Employee Name {% else %} Customer Name {% endif %}"
     # hidden: yes
     sql: ${TABLE}.user_id ;;
   }
@@ -84,6 +75,8 @@ view: orders {
     type: count
     drill_fields: [detail*]
   }
+
+
 
   # ----- Sets of fields for drilling ------
   set: detail {
